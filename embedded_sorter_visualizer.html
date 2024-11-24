@@ -1,0 +1,193 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sorter Visualizer</title>
+    <style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #f4f4f4;
+  height: 100vh;
+  overflow: hidden;
+}
+
+header {
+  margin-bottom: 1rem;
+}
+
+.controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+button {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 5px;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+#box {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 5px;
+  height: 50vh;
+  width: 80%;
+  border: 2px solid #ccc;
+  background-color: white;
+  overflow: hidden;
+}
+
+.my-class {
+  background-color: blue;
+  color: white;
+  text-align: center;
+  font-size: 0.8rem;
+  font-weight: bold;
+}
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Sorter Visualizer</h1>
+    </header>
+    <main>
+      <div class="controls">
+        <div class="form-group">
+          <label for="typeOf">Type of Sort:</label>
+          <select id="typeOf">
+            <option value="5">5</option>
+            <option value="10">10</option>
+            <option value="20">20</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="input-length">Array Length:</label>
+          <select id="input-length">
+            <option value="5">5</option>
+            <option value="10">10</option>
+            <option value="20">20</option>
+          </select>
+        </div>
+        <button class="createArrBtn">New Array</button>
+        <button class="sortBtn">Sort</button>
+      </div>
+      <div class="graph" id="box"></div>
+    </main>
+    <script>
+// Utility function to pad numbers with leading zeros (if needed)
+function padNumber(num) {
+  return num.toString().padStart(3, "0");
+}
+
+// Generate a random array of heights from 50 to 200
+function randomHeights(length) {
+  const arr = [];
+  for (let i = 0; i < length; i++) {
+    arr.push(Math.floor(Math.random() * (200 - 50 + 1) + 50));
+  }
+  return arr;
+}
+
+// Create and display array bars in the graph
+function createElement(arr) {
+  const graphBox = document.getElementById("box");
+  graphBox.innerHTML = ""; // Clear previous bars
+  const elements = arr.map((value) => {
+    const bar = document.createElement("div");
+    bar.classList.add("my-class");
+    bar.style.height = `${value}px`;
+    bar.textContent = padNumber(value); // Show padded number as text
+    graphBox.appendChild(bar);
+    return bar;
+  });
+  return elements;
+}
+
+// Bubble sort visualization
+// Helper function to delay execution
+function delay(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+// Optimized bubbleSort function
+async function bubbleSort(elements) {
+  const n = elements.length;
+  for (let i = 0; i < n - 1; i++) {
+    let swapped = false;
+    for (let j = 0; j < n - i - 1; j++) {
+      const bar1 = elements[j];
+      const bar2 = elements[j + 1];
+
+      // Highlight the bars being compared
+      bar1.style.backgroundColor = "red";
+      bar2.style.backgroundColor = "red";
+
+      await delay(300);
+
+      // Compare heights numerically
+      if (parseInt(bar1.style.height) > parseInt(bar2.style.height)) {
+        // Swap heights and update text content
+        [bar1.style.height, bar2.style.height] = [bar2.style.height, bar1.style.height];
+        [bar1.textContent, bar2.textContent] = [bar2.textContent, bar1.textContent];
+        swapped = true;
+      }
+
+      // Reset bar colors
+      bar1.style.backgroundColor = "blue";
+      bar2.style.backgroundColor = "blue";
+    }
+
+    // Mark the last sorted element as green
+    elements[n - i - 1].style.backgroundColor = "green";
+
+    // Break early if no swaps occurred
+    if (!swapped) break;
+  }
+
+  // Mark all elements as sorted
+  elements.forEach(bar => (bar.style.backgroundColor = "green"));
+}
+
+
+// Event listeners for buttons
+document.querySelector(".createArrBtn").addEventListener("click", () => {
+  const arrayLength = parseInt(document.getElementById("input-length").value);
+  const randomArray = randomHeights(arrayLength);
+  window.randomizedArr = createElement(randomArray); // Store created elements globally
+});
+
+document.querySelector(".sortBtn").addEventListener("click", () => {
+  if (window.randomizedArr) bubbleSort(window.randomizedArr);
+});
+    </script>
+  </body>
+</html>
