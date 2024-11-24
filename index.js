@@ -1,6 +1,8 @@
 const bars = document.querySelectorAll("my-class");
 const newArrayBtn = document.querySelector('.createArrBtn')
 const sortBtn = document.querySelector('.sortBtn')
+// const chartClass = document.querySelector('.my-class')
+
 
 //create a random arr that contains different numbers from 70 - 300
 function randomHeights(length) {
@@ -8,10 +10,10 @@ function randomHeights(length) {
   for (let index = 0; index < length; index++) {
     val = Math.floor(Math.random() * (70, 301));
     let str = val.toString();
-    console.log('yooo')
+   
     arr.push(str);
   }
-  console.log(arr)
+ 
   return arr;
 }
 
@@ -20,9 +22,9 @@ function createElement(arr) {
   let gridArray = [];
   let i = 0;
   while (i < arr.length) {
-    const newDiv = document.createElement("div");
-    newDiv.classList.add("my-class");
-    newDiv.style.height = arr[i] + "px";
+    const Div = document.createElement("div");
+    Div.classList.add("my-class");
+    Div.style.height = arr[i] + "px";
     newDiv.innerHTML = arr[i]
     const parentElement = document.getElementById("box");
     parentElement.appendChild(newDiv);
@@ -39,6 +41,7 @@ function createElement(arr) {
 
 
 async function bubbleSort(arr, delay) {
+    console.log(delay)
   let swapped;
   let count = arr.length - 1;
   do {
@@ -48,7 +51,7 @@ async function bubbleSort(arr, delay) {
       await new Promise((resolve) =>
         setTimeout(() => {
           resolve();
-        }, 300)
+        }, delay)
       );
       if (arr[i].clientHeight > arr[i + 1].clientHeight) {
         // Swap elements
@@ -80,7 +83,6 @@ async function bubbleSort(arr, delay) {
 function changeColumns(arr) {
   for (let i = 0; i < arr.length; i++) {
     const element = arr[i];
-    console.log(element);
     arr[i].style.gridColumn = (i + 1).toString();
   }
 }
@@ -89,7 +91,10 @@ let randomizedArr;
 
 newArrayBtn.addEventListener('click', () =>{
     const arrLength = document.getElementById("input-length");
+    
+    
 const val = arrLength.value;
+console.log(val)
     let newArray = randomHeights(val);
     let addedElements = createElement(newArray)
     randomizedArr = addedElements
@@ -97,5 +102,9 @@ const val = arrLength.value;
 
 
 sortBtn.addEventListener('click', () =>{
-     bubbleSort(randomizedArr)
+    const speed = document.getElementById("input-multiplier");
+    let multiplier = speed.value
+    
+     bubbleSort(randomizedArr, multiplier)
 })
+
