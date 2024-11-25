@@ -1,8 +1,7 @@
 const bars = document.querySelectorAll("my-class");
-const newArrayBtn = document.querySelector('.createArrBtn')
-const sortBtn = document.querySelector('.sortBtn')
+const newArrayBtn = document.querySelector(".createArrBtn");
+const sortBtn = document.querySelector(".sortBtn");
 // const chartClass = document.querySelector('.my-class')
-
 
 //create a random arr that contains different numbers from 70 - 300
 function randomHeights(length) {
@@ -10,10 +9,10 @@ function randomHeights(length) {
   for (let index = 0; index < length; index++) {
     val = Math.floor(Math.random() * (70, 301));
     let str = val.toString();
-   
+
     arr.push(str);
   }
- 
+
   return arr;
 }
 
@@ -25,7 +24,7 @@ function createElement(arr) {
     const Div = document.createElement("div");
     Div.classList.add("my-class");
     Div.style.height = arr[i] + "px";
-    newDiv.innerHTML = arr[i]
+    Div.innerHTML = arr[i];
     const parentElement = document.getElementById("box");
     parentElement.appendChild(newDiv);
     gridArray.push(newDiv);
@@ -34,14 +33,8 @@ function createElement(arr) {
   return gridArray;
 }
 
-
-
-
-
-
-
 async function bubbleSort(arr, delay) {
-    console.log(delay)
+  console.log(delay);
   let swapped;
   let count = arr.length - 1;
   do {
@@ -69,15 +62,13 @@ async function bubbleSort(arr, delay) {
     arr[count].style.background = "green";
     count--;
   } while (swapped);
-  
+
   //   arr[0].style.background = 'green'
-  arr.forEach(element => {
+  arr.forEach((element) => {
     element.style.backgroundColor = "green";
   });
   return arr;
 }
-
-
 
 // bubbleSort(gridArray);
 function changeColumns(arr) {
@@ -89,22 +80,19 @@ function changeColumns(arr) {
 
 let randomizedArr;
 
-newArrayBtn.addEventListener('click', () =>{
-    const arrLength = document.getElementById("input-length");
-    
-    
-const val = arrLength.value;
-console.log(val)
-    let newArray = randomHeights(val);
-    let addedElements = createElement(newArray)
-    randomizedArr = addedElements
-})
+newArrayBtn.addEventListener("click", () => {
+  const arrLength = document.getElementById("input-length");
 
+  const val = arrLength.value;
+  console.log(val);
+  let newArray = randomHeights(val);
+  let addedElements = createElement(newArray);
+  randomizedArr = addedElements;
+});
 
-sortBtn.addEventListener('click', () =>{
-    const speed = document.getElementById("input-multiplier");
-    let multiplier = speed.value
-    
-     bubbleSort(randomizedArr, multiplier)
-})
+sortBtn.addEventListener("click", () => {
+  const speed = document.getElementById("input-multiplier");
+  let multiplier = speed.value;
 
+  bubbleSort(randomizedArr, multiplier);
+});
