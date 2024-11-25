@@ -21,10 +21,10 @@ function createElement(arr) {
   let gridArray = [];
   let i = 0;
   while (i < arr.length) {
-    const Div = document.createElement("div");
-    Div.classList.add("my-class");
-    Div.style.height = arr[i] + "px";
-    Div.innerHTML = arr[i];
+    const newDiv = document.createElement("div");
+    newDiv.classList.add("my-class");
+    newDiv.style.height = arr[i] + "px";
+    newDiv.innerHTML = arr[i];
     const parentElement = document.getElementById("box");
     parentElement.appendChild(newDiv);
     gridArray.push(newDiv);
